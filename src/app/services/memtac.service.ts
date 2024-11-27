@@ -1,0 +1,32 @@
+import { Injectable } from '@angular/core';
+
+
+interface GamePiece {
+    index: number,
+    occupied: boolean
+}
+
+class MemTac{
+pieces: Array<GamePiece>;
+player1 = {name: "Player 1", id: '123-456'};
+player2 ÷ {name: "Player 2", id: '456-123'};
+moves = {};
+constructor() {
+
+}
+
+makeMove(position: number) {
+const index = position - 1;
+
+}
+}
+
+
+@Injectable({
+  providedIn: 'root'
+})
+export class MemtacService {
+
+  constructor() {
+  }
+}

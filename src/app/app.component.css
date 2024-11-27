@@ -1,0 +1,9 @@
+.game {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  grid-gap: 4px;
+}
+.game > * {
+  aspect-ratio: 1;
+}

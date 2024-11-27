@@ -1,0 +1,42 @@
+<main class="main flex flex-col justify-center items-center">
+  <h1 class="font-poppins font-bold text-2xl text-lime-400 ">NG Memtac</h1>
+  <p>
+    Clicked button at index {{clickedIndex()}}
+  </p>
+  <div class="game p-5 m-20 max-w-md">
+    @let arr = [].constructor(9);
+    @for(piece of arr; track $index) {
+      <game-piece (click)="handleClick($event, $index)">
+        @switch(player() && clickedIndex()) {
+            @case(PLAYER_TYPES.PLAYER1 && $index) {
+              <circle-icon ngProjectAs="piece-content" class="text-red-300" />
+            }
+            @case(PLAYER_TYPES.PLAYER2 && $index) {
+              <close-icon ngProjectAs="piece-content" class="text-neutral-400"/>
+            }
+            @default {
+              <span ngProjectAs="piece-content " class="size-24"></span>
+            }
+        }
+      </game-piece>
+    }
+  </div>
+  <div class="controls flex justify-between border border-lime-400 min-w-lg">
+    <button class="btn" (click)="handleSelectedPlayer(PLAYER_TYPES.PLAYER2)">
+      <circle-icon [iconSize]="'w-8'"/>
+    </button>
+    <button class="btn" (click)="handleSelectedPlayer(PLAYER_TYPES.PLAYER1)">
+      <close-icon [iconSize]="'w-8'"/>
+    </button>
+    <p class=" ml-7 flex items-center">Selected: 
+      @if(player() === PLAYER_TYPES.PLAYER1) {
+        <close-icon [iconSize]="'w-8'" class="text-lime-200"/>
+      }
+      @else {
+        <circle-icon [iconSize]="'w-8'" class="text-lime-200"/>
+      }
+    </p>
+  </div>
+  <div class="scores"></div>
+  <router-outlet />
+</main>
