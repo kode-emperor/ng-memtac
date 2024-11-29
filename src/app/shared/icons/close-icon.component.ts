@@ -1,4 +1,4 @@
-import { Component, input, computed} from '@angular/core';
+import { Component, input} from '@angular/core';
 
 @Component({
   selector: 'close-icon',
@@ -16,7 +16,5 @@ import { Component, input, computed} from '@angular/core';
 </svg>`,
 })
 export class CloseIconComponent {
-       iconSize = input('w-24')
-       //iconSize = input(24)
-       //sizeClass = computed(() => `w-${this.iconSize()}`);
+  iconSize = input('w-24')
 }
