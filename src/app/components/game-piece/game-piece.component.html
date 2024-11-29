@@ -1,3 +1,3 @@
-<button class="size-full flex justify-center items-center border border-lime-400 bg-lime-100 rounded-sm focus:bg-lime-600 hover:bg-lime-600">
+<button class="size-full flex justify-center items-center border border-lime-400 bg-lime-100 rounded-sm {{!invalid() ? 'focus:bg-lime-600 hover:bg-lime-600': errorClass()}}">
   <ng-content select="piece-content" class="flex justify-center items-center btn p-2 bg-slate-200 w-full"/>
 </button>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'game-piece',
@@ -7,5 +7,6 @@ import { Component } from '@angular/core';
   styleUrl: './game-piece.component.css'
 })
 export class GamePieceComponent {
-
+  invalid = input(true)
+  errorClass = input('')
 }

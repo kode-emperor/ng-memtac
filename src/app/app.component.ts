@@ -3,7 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { CircleIconComponent } from './shared/icons/circle-icon.component';
 import { CloseIconComponent } from './shared/icons/close-icon.component';
 import { GamePieceComponent } from "./components/game-piece/game-piece.component";
-
+import { AsteriskComponent } from './shared/icons/asterisk.component';
 
 
 enum PlayerTypes { 
@@ -18,7 +18,7 @@ const imports = [
   CloseIconComponent,
   AsteriskComponent,
   GamePieceComponent,
-  SquareComponent
+
 ]
 @Component({
   selector: 'app-root',
@@ -30,6 +30,7 @@ export class AppComponent {
   title = 'srv';
   PLAYER_TYPES = PlayerTypes;
   clickedIndex = signal<number>(-1);
+  isValidMove = signal(true);
   player = signal<PlayerTypes>(PlayerTypes.UNKNOWN)
 
   pieces = signal(
