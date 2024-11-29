@@ -5,8 +5,7 @@ import { CloseIconComponent } from './shared/icons/close-icon.component';
 import { GamePieceComponent } from "./components/game-piece/game-piece.component";
 import { AsteriskComponent } from './shared/icons/asterisk.component';
 
-
-enum PlayerTypes { 
+enum PlayerTypes {
   PLAYER1 = 'X',
   PLAYER2 = 'O',
   UNKNOWN = '?'
@@ -18,7 +17,6 @@ const imports = [
   CloseIconComponent,
   AsteriskComponent,
   GamePieceComponent,
-
 ]
 @Component({
   selector: 'app-root',
@@ -77,10 +75,26 @@ export class AppComponent {
 
   handleClick(event: Event, index: number) {
     console.log(`click index is: ${index}`);
-    this.clickedIndex.update( () => index)
+    this.clickedIndex.update(() => index);
+    console.log('Player before move is: '+ this.player())
+    this.makeMove(this.player(), this.clickedIndex())
+    this.changePlayer(this.player())
+    console.log('Player after move is: '+ this.player())
   }
 
-  handleSelectedPlayer(player: PlayerTypes){
-    this.player.update( () => player);
+  changePlayer(player: PlayerTypes) {
+    if(player === PlayerTypes.PLAYER1) {
+      this.player.update(() => PlayerTypes.PLAYER2);
+      return;
+    }
+    if(player === PlayerTypes.PLAYER2) {
+      this.player.update(() => PlayerTypes.PLAYER1);
+      return;
+    }
+    this.player.update(() => PlayerTypes.UNKNOWN);
+    return;
+  }
+  handleSelectedPlayer(player: PlayerTypes) {
+    this.player.update(() => player);
   }
 }
