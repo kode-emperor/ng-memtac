@@ -16,7 +16,9 @@ const imports = [
   RouterOutlet,
   CircleIconComponent,
   CloseIconComponent,
-  GamePieceComponent
+  AsteriskComponent,
+  GamePieceComponent,
+  SquareComponent
 ]
 @Component({
   selector: 'app-root',
@@ -29,7 +31,48 @@ export class AppComponent {
   PLAYER_TYPES = PlayerTypes;
   clickedIndex = signal<number>(-1);
   player = signal<PlayerTypes>(PlayerTypes.UNKNOWN)
-  nextPlayer = computed( () => (this.player() === PlayerTypes.PLAYER1) ? PlayerTypes.PLAYER2 : PlayerTypes.PLAYER1);
+
+  pieces = signal(
+    new Map([...Array(9)].map((_, index: number) => [index, { occupied: false, player: PlayerTypes.UNKNOWN }]))
+  );
+  comp_pieces = computed( () => {
+    let conv_map = new Map();
+    this.pieces().forEach( (value, index) => {
+      conv_map.set(index, value.player)
+    })
+    return conv_map;
+  })
+
+  updateMap(
+    map: Map<number, { occupied: boolean, player: PlayerTypes }>,
+    index: number, occupied: boolean, player: PlayerTypes) {
+    let newValues = { occupied: occupied, player: player };
+    let newMap = new Map(map);
+    newMap.set(index, newValues);
+    return newMap;
+  }
+  makeMove(player: PlayerTypes, pieceIndex: number) {
+    //an invalid move is one that moves to an occupied square
+    let valid = false;
+    console.log(`map before : ${this.pieces()}`)
+    if (!this.pieces().has(pieceIndex)) {
+      this.isValidMove.update(() => valid);
+      return;
+    }
+    const occupied = (this.pieces().get(pieceIndex)?.player !== PlayerTypes.UNKNOWN) || false;
+    if (!occupied) {
+
+      this.pieces.update(pieces => this.updateMap(pieces, pieceIndex, true, player));
+      valid = true;
+    }
+    if (!valid) {
+      console.log(`Invalid move to piece at ${pieceIndex}`);
+    }
+    this.isValidMove.update(() => valid);
+    console.log('map after :')
+    console.log(this.pieces())
+    
+  }
 
   handleClick(event: Event, index: number) {
     console.log(`click index is: ${index}`);
