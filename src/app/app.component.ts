@@ -7,9 +7,9 @@ import { GamePieceComponent } from "./components/game-piece/game-piece.component
 
 
 enum PlayerTypes { 
-  PLAYER1,
-  PLAYER2,
-  UNKNOWN
+  PLAYER1 = 'X',
+  PLAYER2 = 'O',
+  UNKNOWN = '?'
 };
 
 const imports = [
