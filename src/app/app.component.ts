@@ -11,6 +11,54 @@ enum PlayerTypes {
   UNKNOWN = '?'
 };
 
+interface Move {
+    player: PlayerTypes;
+    piece_index: number;
+}
+function isHorizontalWin(moves: Map<number, PlayerTypes>, move: Move) {
+    const left = [];
+}
+
+
+enum TacIterTypes {
+    H,
+    V,
+    D
+}
+
+class Memtac  {
+    
+}
+
+/*
+function TacGridIterator(iter_type = H, startIndex: number) {
+    const arr = [...Array(9).keys()];
+    let left = -1;
+    let right = -1;
+    const rowSize = 3;
+    const tacGridIterator = {
+	next() {
+	    if(iter_type === TacIterTypes.H) {
+		const row0 = arr.slice(rowSize * 0, rowSize + (rowSize*0));
+		const row1 = arr.slice(rowSize * 1, rowSize + (rowSize * 1));
+		const row2 = arr.slice(rowSize * 2, rowSize + (rowSize * 2));
+		
+		if(row0.includes(startIndex)) {
+		    return {value: row0, done: true}  
+		
+	    }
+	}
+    }
+    return tacGridIterator;
+}*/
+/*
+  tgi = TGI
+  tgi.next()
+  for(let i of tgi) {
+  
+  }
+
+*/
 const imports = [
   RouterOutlet,
   CircleIconComponent,
@@ -34,6 +82,8 @@ export class AppComponent {
   pieces = signal(
     new Map([...Array(9)].map((_, index: number) => [index, { occupied: false, player: PlayerTypes.UNKNOWN }]))
   );
+
+  
   comp_pieces = computed( () => {
     let conv_map = new Map();
     this.pieces().forEach( (value, index) => {
