@@ -5,8 +5,9 @@ import { CircleIconComponent } from './shared/icons/circle-icon.component';
 import { CloseIconComponent } from './shared/icons/close-icon.component';
 import { GamePieceComponent } from "./components/game-piece/game-piece.component";
 import { AsteriskComponent } from './shared/icons/asterisk.component';
-import { PlayerTypes, PieceStatus, MemtacService } from './services/memtac.service';
+import { PlayerTypes, PieceStatus, MemtacService, helpers, gameStateEqual } from './services/memtac.service';
 import {MapObjectify } from './map-objectify.pipe';
+import { JsonPipe } from '@angular/common';
 
 const imports = [
     RouterOutlet,
@@ -14,7 +15,8 @@ const imports = [
     CloseIconComponent,
     AsteriskComponent,
     GamePieceComponent,
-    MapObjectify
+    MapObjectify,
+    JsonPipe
 ]
 @Component({
     selector: 'app-root',
@@ -29,7 +31,7 @@ export class AppComponent implements AfterViewChecked{
     clickedIndex = signal<number>(-1);
     isValidMove = signal(true);
     player:Signal<PlayerTypes>;
-    
+    helpers_ = helpers();
     comp_pieces = computed(() => {
         let conv_map = new Map();
         this.memtacService.getPieces().forEach((value: PieceStatus, index: number) => {
@@ -39,22 +41,35 @@ export class AppComponent implements AfterViewChecked{
     })
     constructor() {
         this.player = this.memtacService.getPlayer();
+        //sssthis.memtacService.start();
     }
 
     ngAfterViewChecked() {
         
     }
     
-    async makeMove(pieceIndex: number) {
-        await this.memtacService.makeMove(pieceIndex);
+    makeMove(pieceIndex: number) {
+        this.memtacService.makeMove(pieceIndex);
     }
 
     handleClick(event: Event, index: number) {
-        
-        console.log(`click index is: ${index}`);
-        this.clickedIndex.update(() => index);
-        console.log('Player before move is: ' + this.player())
-        this.makeMove(this.clickedIndex())
+        if(gameStateEqual(this.memtacService.gameStatus(), 
+        this.helpers_.GAMESTATE.INPROGRESS)) {
+            console.log(`click index is: ${index}`);
+            this.clickedIndex.update(() => index);
+            console.log('Player before move is: ' + this.player())
+            this.makeMove(this.clickedIndex())
+        }
+        if(gameStateEqual(this.memtacService.gameStatus(), this.helpers_.GAMESTATE.OVER)) {
+            alert(`Game over player ${this.player()} won`);
 
+        }
+
+        console.log(`game status: ${this.memtacService.gameStatus()}`)
+        //console.log(this.memtacService.gameStatus());
+        let stats = this.memtacService.gameStatus();
+        Object.defineProperty(globalThis, 'gamestat', {
+            value: stats
+        })
     }   
 }

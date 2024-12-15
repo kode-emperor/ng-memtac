@@ -7,9 +7,9 @@ export class MapObjectify implements PipeTransform {
 
     transform<Key,Val>(value: Map<Key,Val>) {
         let obj = {};
-        value.forEach((v,k) => {
+        /*value.forEach((v,k) => {
             obj[k] = v;
-        });
+        });*/
       return obj;
   }
 
