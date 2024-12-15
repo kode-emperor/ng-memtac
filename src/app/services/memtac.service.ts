@@ -44,7 +44,7 @@ export class MemtacService {
     row1 = () => this.INDICES.slice(3, 6);
     row2 = () => this.INDICES.slice(6, 9);
 
-    col0 = () => this.INDICES.filter(index => index % 3 == 0 && index)
+    col0 = () => this.INDICES.filter(index => index % 3 == 0 && index <= 6)
     col1 = () => this.INDICES.filter(index => [1, 4, 7].includes(index));
     col2 = () => this.INDICES.filter(index => [2, 5, 8].includes(index));
 
