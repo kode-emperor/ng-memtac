@@ -31,6 +31,13 @@ export class AppComponent implements AfterViewChecked{
     clickedIndex = signal<number>(-1);
     isValidMove = signal(true);
     player:Signal<PlayerTypes>;
+    prevMove = signal({player: PlayerTypes.UNKNOWN, index: -1});
+    stateEq = gameStateEqual;
+    status = () => {
+        const stat = this.memtacService.getStatus();
+        return stat();
+    }
+
     helpers_ = helpers();
     comp_pieces = computed(() => {
         let conv_map = new Map();
@@ -50,27 +57,20 @@ export class AppComponent implements AfterViewChecked{
     
     makeMove(pieceIndex: number) {
         this.memtacService.makeMove(pieceIndex);
+        this.prevMove.update(() => ({player: this.player(), index: pieceIndex}));
     }
 
     handleClick(event: Event, index: number) {
-        if(gameStateEqual(this.memtacService.gameStatus(), 
+        if(gameStateEqual(this.status(), 
         this.helpers_.GAMESTATE.INPROGRESS)) {
-            console.log(`click index is: ${index}`);
             this.clickedIndex.update(() => index);
-            console.log('Player before move is: ' + this.player())
             this.makeMove(this.clickedIndex())
         }
-        if(gameStateEqual(this.memtacService.gameStatus(), this.helpers_.GAMESTATE.OVER)) {
+        if(gameStateEqual(this.status(), this.helpers_.GAMESTATE.OVER)) {
             alert(`Game over player ${this.player()} won`);
 
         }
-
-        console.log(`game status: ${this.memtacService.gameStatus()}`)
-        //console.log(this.memtacService.gameStatus());
-        let stats = this.memtacService.gameStatus();
-        Object.defineProperty(globalThis, 'gamestat', {
-            value: stats
-        })
+        
     }   
 }
 

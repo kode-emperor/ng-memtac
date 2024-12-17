@@ -18,21 +18,26 @@
     @for(piece of comp_pieces(); track piece[0]) {
 
     <game-piece (click)="handleClick($event, piece[0])" [invalid]=" isValidMove() && piece[1] !== PLAYER_TYPES.UNKNOWN" [errorClass]="'focus:bg-red-400 hover:bg-red-400'">
-      @if(piece[1] === PLAYER_TYPES.PLAYER2 ) {
-      <circle-icon ngProjectAs="piece-content" class="text-red-300" />
+      @if(prevMove().index === piece[0]) {
+        @if(piece[1] === PLAYER_TYPES.PLAYER2 ) {
+          <circle-icon ngProjectAs="piece-content" class="text-red-300" />
+        }
+        @if(piece[1] === PLAYER_TYPES.PLAYER1) {
+          <close-icon ngProjectAs="piece-content" class="text-red-300" />
+        }
+        
+      }@else {
+        <asterisk-icon ngProjectAs="piece-content " class="text-gray-600"/>
       }
-      @if(piece[1] === PLAYER_TYPES.PLAYER1) {
-      <close-icon ngProjectAs="piece-content" class="text-red-300" />
-      }
+      
 
-      @if(piece[1] === PLAYER_TYPES.UNKNOWN) {
-      <asterisk-icon ngProjectAs="piece-content " class="text-gray-600"/>
-      }
+      
     </game-piece>
     }
-    {{ player()}}
-
   </div>
+  @if(stateEq(status(), helpers_.GAMESTATE.OVER)) {
+    <p>Game over {{player()}} has won!!!</p>
+  }
   <p>[player: {{player()}}, piece-index: {{clickedIndex()}} ]</p>
   <div class="controls flex justify-between border border-lime-400 min-w-lg">
     <button class="btn">
